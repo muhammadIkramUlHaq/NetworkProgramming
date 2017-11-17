@@ -53,7 +53,6 @@ public class HangMan {
         
     }
 
-    //public static void guess (String word, String a)
     public void guess (String word, DataInputStream input, DataOutputStream output) throws IOException {
         boolean shouldRun= true;
         System.out.println("The word is " +word);
@@ -74,7 +73,7 @@ public class HangMan {
             }
             // test if the input is more than one character 
             if (aTry.length()== word.length() && aTry.equalsIgnoreCase(word)){
-                    this.score++;
+                this.score++;
                 output.writeUTF("cool! you got it right! Your score is : "+this.score);
                 break;
                  
@@ -95,11 +94,13 @@ public class HangMan {
                 counter--;
             }            
             if (counter==0 ) {
-                output.writeUTF("Hanged!");
+                this.score--;
+                output.writeUTF("Hanged! Your Score is : "+ this.score);
+
                 break;
             } else if (dashed.equalsIgnoreCase(word)){
                 this.score++;
-                output.writeUTF("oh man you made it! Your Score is :" + this.score);
+                output.writeUTF("oh man you made it! Your Score is : " + this.score);
                 break;
             }
         }   

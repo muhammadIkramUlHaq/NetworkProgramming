@@ -15,8 +15,6 @@ class Sender extends Thread{
 
     public Sender(DataOutputStream out)  {
         this.output = out;
-
-
     }
     @Override
     public void run() {

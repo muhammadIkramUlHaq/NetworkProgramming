@@ -16,27 +16,29 @@ import java.util.logging.Logger;
  */
 
 class ClientHandler extends Thread{
-    Socket socket;
+    private Socket socket;
+
     public ClientHandler(Socket s){
         this.socket = s;
     }
 
     @Override
     public void run(){
-        String actualWord = null;
+        String mysteryWord = null;
 
         Scanner playAgain = new Scanner(System.in);
+        HangMan hangMan = new HangMan();
         try {
 
             DataInputStream input = new DataInputStream(socket.getInputStream());
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
-            HangMan.init();
+            hangMan.init(output);
 
             while (true ){
-                actualWord = HangMan.randomWordGenerator();
-                HangMan.guess(actualWord,input,output);
-                output.writeUTF("play again? Please enter y to continue");
+                mysteryWord = hangMan.randomWordGenerator();
+                hangMan.guess(mysteryWord,input,output);
+                output.writeUTF("play again? Please enter y to continue !");
                 String reply = null;
                 try {
                     reply = input.readUTF();

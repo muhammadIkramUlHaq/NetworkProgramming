@@ -14,8 +14,8 @@ import java.util.Random;
 
 /**
  * Here are a few things to consider for this game as understood:
- * 1. The controller.server does everything.
- * 2. The controller.server initiates the talking to the user by saying, hey, guess a word.
+ * 1. The server does everything.
+ * 2. The server initiates the talking to the user by saying, hey, guess a word.
  * The client will be notified about the number of times he can guess given the 
  * number of characters. 
  * 3. The user/client replies back with a character or the whole word. 
@@ -24,12 +24,13 @@ import java.util.Random;
  * @author ikram
  */
 public class HangMan {
-    static List<String> database = new ArrayList<String>();
-
-   public static void init () {
+    private static List<String> database = new ArrayList<String>();
+    private  int score ;
+   public void init (DataOutputStream output) {
        try {
         BufferedReader reader = new BufferedReader( new FileReader("words.txt"));
-        
+        output.writeUTF("Welcome! The HangMan game has started, You can input 'quit' at any time if you want to leave! ");
+        output.writeUTF("Enjoy playing the game and improve your vocabulary :)");
         int counter = 0;
         String word = reader.readLine();
         while( word != null ) {
@@ -44,28 +45,25 @@ public class HangMan {
        }
         
     }
-    public static String randomWordGenerator (){
+    public String randomWordGenerator (){
         // Choose a random one from the list
         Random r = new Random();
         String randomWord = database.get(r.nextInt(database.size()));
-
-        
         return randomWord;
         
     }
 
     //public static void guess (String word, String a)
-    public static void guess (String word, DataInputStream input, DataOutputStream output) throws IOException {
+    public void guess (String word, DataInputStream input, DataOutputStream output) throws IOException {
         boolean shouldRun= true;
         System.out.println("The word is " +word);
         String dashed = word.replaceAll(".", "-");
         String aTry;
-        int score = 0;
         int counter = word.length();
         // these two are here because they allow us to play with strings.
         StringBuffer stringBuffer = new StringBuffer(word);
         StringBuffer wordDashed = new StringBuffer(dashed);
-        output.writeUTF("Welcome.");
+
         while (shouldRun){
             output.writeUTF("You have "+counter+" tries. The word is "+dashed);
 
@@ -76,8 +74,8 @@ public class HangMan {
             }
             // test if the input is more than one character 
             if (aTry.length()== word.length() && aTry.equalsIgnoreCase(word)){
-                    score++;
-                output.writeUTF("cool! you got it right! Your score is : "+score);
+                    this.score++;
+                output.writeUTF("cool! you got it right! Your score is : "+this.score);
                 break;
                  
             } 
@@ -93,15 +91,15 @@ public class HangMan {
                     }  
                 }
             else{
-                output.writeUTF("Incorrect guess bro!");
+                output.writeUTF("Incorrect guess!");
                 counter--;
             }            
             if (counter==0 ) {
                 output.writeUTF("Hanged!");
                 break;
             } else if (dashed.equalsIgnoreCase(word)){
-                score++;
-                output.writeUTF("oh man you made it! Your Score is :" + score);
+                this.score++;
+                output.writeUTF("oh man you made it! Your Score is :" + this.score);
                 break;
             }
         }   

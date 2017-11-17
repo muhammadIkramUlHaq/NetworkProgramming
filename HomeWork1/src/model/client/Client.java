@@ -14,14 +14,10 @@ import java.net.Socket;
 
 public class Client {
 
-    public static void printWelcome (){
-        System.out.println("Welcome from client");
-    }
 
     public static void main(String[] args) throws IOException, InterruptedException{
         int PORT = 9999;
         String ipAddress = "localhost";
-        printWelcome();
 
         Socket s = new Socket(ipAddress,PORT);
         DataInputStream input = new DataInputStream(s.getInputStream());

@@ -12,7 +12,7 @@ import java.net.Socket;
 public class Server {
 
     public static void printWelcome (){
-        System.out.println("Welcome from the controller.controller side");
+        System.out.println("Welcome from Server! waiting for client ...");
     }
     public static void main (String args[]) throws InterruptedException, IOException {
 

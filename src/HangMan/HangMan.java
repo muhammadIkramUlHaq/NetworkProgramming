@@ -1,11 +1,8 @@
 
 package hangman;
 
-import java.io.BufferedReader;
+import java.io.*;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,12 +27,11 @@ import java.util.Random;
 public class HangMan {
     static List<String> database = new ArrayList<String>();
 
-   
-
     /**
      *
      */
-    private static void init () throws FileNotFoundException, IOException {
+   public static void init () {
+       try {
         BufferedReader reader = new BufferedReader( new FileReader("words.txt"));
         
         int counter = 0;
@@ -46,6 +42,10 @@ public class HangMan {
             counter++;
         }
         System.out.println("database created. no. of words = "+counter);
+       }
+       catch (IOException e){
+           System.out.println("File Not Found!");
+       }
         
     }
     public static String randomWordGenerator (){
@@ -57,49 +57,33 @@ public class HangMan {
         return randomWord;
         
     }
-    public static void main(String args[]) throws IOException{
-        // first things first, let's try to open a file with lots of words in it.
-        Scanner playAgain = new Scanner(System.in);
-        init();
-        
-        while (true ){
-            guess();
-            System.out.println("play again? Please enter y to continue");
-            String reply = playAgain.nextLine();
-            if (reply.toLowerCase().equals("y")){
-                continue;
-            } else {
-                System.out.println("bye");
-                break;
-                
-            }
-        }
-            
-    }
-    
+
     //public static void guess (String word, String a)
-    public static void guess () throws IOException{
+    public static void guess (String word, DataInputStream input, DataOutputStream output) throws IOException {
         boolean shouldRun= true;
-        Scanner sc = new Scanner(System.in);
-        String random = randomWordGenerator();
-        String word = random;
-        System.out.println("The word is " +random);
+        //Scanner sc = new Scanner(System.in);
+        System.out.println("The word is " +word);
         String dashed = word.replaceAll(".", "-");
         String aTry;
+        int score = 0;
         int counter = word.length();
         // these two are here because they allow us to play with strings.
         StringBuffer sb = new StringBuffer(word);
         StringBuffer wordDashed = new StringBuffer(dashed);
-        // I need to build some kind of progress here hmm 
+        // I need to build some kind of progress here hmm
+        output.writeUTF("Welcome.");
         while (shouldRun){
-            
-            System.out.print("You have "+counter+" tries.");
-            System.out.println(" The word is "+dashed);
-            aTry = sc.nextLine();
+            output.writeUTF("You have "+counter+" tries. The word is "+dashed);
+
+            aTry = input.readUTF();
+            if (aTry.toLowerCase().equals("quit")){
+                output.writeUTF("quit");
+                break;
+            }
             // test if the input is more than one character 
             if (aTry.length()== word.length() && aTry.equals(word)){
-                //if (aTry.equals(word)){
-                System.out.println("cool! you got it right!");
+                    score++;
+                output.writeUTF("cool! you got it right! Your score is : "+score);
                 break;
                  
             } 
@@ -111,19 +95,20 @@ public class HangMan {
                     if (sb.charAt(i)==(aTryChar)){
                         wordDashed.setCharAt(i, aTryChar);
                         dashed = wordDashed.toString();
-                        System.out.println(dashed);       
+
                         }
                     }  
                 }
             else{
-                System.out.println ("Incorrect guess bro!");
+                output.writeUTF("Incorrect guess bro!");
                 counter--;
             }            
             if (counter==0 ) {
-                System.out.println("Hanged!");
+                output.writeUTF("Hanged!");
                 break;
             } else if (dashed.equals(word)){
-                System.out.println("oh man you made it!");
+                score++;
+                output.writeUTF("oh man you made it! Your Score is :" + score);
                 break;
             }
         }   

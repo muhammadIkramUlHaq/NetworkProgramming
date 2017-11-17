@@ -25,38 +25,108 @@ public class Client {
     
     public static void main(String[] args) throws IOException, InterruptedException{
         int PORT = 9999;
-        String IPADDRESS = "localhost";
-        int counter = 1;
+        String ipAddress = "localhost";
         printWelcome();
-        // create the socket with which we can start the communciation
-        Socket s = new Socket(IPADDRESS,PORT);
-        // initialize and declare the messages that will be sent to the server
-        DataInputStream input = new DataInputStream(s.getInputStream());
-        // initialize and declare the output from the server 
-        DataOutputStream output = new DataOutputStream(s.getOutputStream());
-        Scanner sc = new Scanner(System.in);
-        String userMessage;
-        while (true){
-            //output.writeUTF("Hello from the client" + counter);
-            userMessage = sc.nextLine();
-            if (userMessage.toLowerCase().equals("quit")) break;
-            output.writeUTF(userMessage);
-            output.flush();
-            while (input.available()==0){
-                Thread.sleep(1);
 
+        Socket s = new Socket(ipAddress,PORT);
+        DataInputStream input = new DataInputStream(s.getInputStream());
+        DataOutputStream output = new DataOutputStream(s.getOutputStream());
+        Sender sender = new Sender(output);
+        sender.start();
+        String message;
+        while (true){
+            try{
+                message = input.readUTF();
+                if (message.toLowerCase().equals("quit")) break;
+
+                System.out.println(message);
+            } catch (IOException e){
+                System.out.println(e);
             }
-            counter++;
-            String message = input.readUTF();
-            System.out.println("Server's message = "+message);
-            //Thread.sleep(3000);
-            if (userMessage.toLowerCase().equals("quit")) break;
-        
         }
-        s.close();
-        input.close();
-        output.close();
+        try {
+            s.close();
+            input.close();
+            output.close();
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
     }
 
+
+}
+class UIHandler extends Thread{
+    DataInputStream input;
+    public UIHandler(DataInputStream in){
+        this.input = in;
+    }
+    public  void run() {
+        String message;
+          while (true){
+              try{
+                message = input.readUTF();
+                  if (message.toLowerCase().equals("quit")) break;
+
+                  System.out.println(message);
+              } catch (IOException e){
+                  System.out.println(e);
+              }
+          }
+        try {
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+}
+
+/*class UIHandler extends Thread {
+
+    public String serverMessage;
+    public UIHandler(String message ){
+        this.serverMessage = message;
+    }
+    @Override
+    public void run (){
+          if(serverMessage != null) {
+             System.out.println(serverMessage);
+          }
+    }
+}    */
+class Sender extends Thread{
+
+    private DataOutputStream output;
+
+    public Sender(DataOutputStream out)  {
+        this.output = out;
+
+
+    }
+    @Override
+    public void run() {
+        Scanner sc = new Scanner(System.in);
+        String userInput;
+        while(true){
+            try{
+                userInput = sc.nextLine();
+
+
+                output.writeUTF(userInput);
+                output.flush();
+                if (userInput.toLowerCase().equals("quit")) break;
+            }  catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+        //s.close();
+        //input.close();
+        /*try {
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } */
+    }
 
 }

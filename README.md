@@ -14,7 +14,7 @@ Java SDK 8
 
 3)- Import the Project using exisiting project
 
-4)- Use HomeWork1 as directory for project
+4)- While choosing the Project Directory. Use HomeWork1 as directory for project
 
 # How to Run the Code
 1)- Run "Server.Java" https://github.com/muhammadIkramUlHaq/NetworkProgramming/blob/master/HomeWork1/src/controller/server/Server.java to     start the server

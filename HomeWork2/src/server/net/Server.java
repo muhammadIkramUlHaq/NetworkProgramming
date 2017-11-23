@@ -18,7 +18,7 @@ import java.util.Iterator;
 public class Server {
 
     private final Controller contr = new Controller();
-    private ByteBuffer messageToSend = ByteBuffer.allocateDirect(1024);
+    private ByteBuffer messageToSend = ByteBuffer.allocateDirect(2);
 
     private int portNo = 1111;
     private Selector selector;

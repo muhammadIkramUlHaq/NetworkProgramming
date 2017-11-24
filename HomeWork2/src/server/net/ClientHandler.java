@@ -1,5 +1,8 @@
 package server.net;
 
+import common.HangMan;
+import common.HangManGame;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -14,7 +17,7 @@ public class ClientHandler implements Runnable {
     private final Server server;
     private final SocketChannel clientChannel;
     private final ByteBuffer msgFromClient = ByteBuffer.allocateDirect(1024);
-
+    private  ByteBuffer msgToClient = ByteBuffer.allocateDirect(1024);
     ClientHandler(Server server, SocketChannel clientChannel) {
         this.server = server;
         this.clientChannel = clientChannel;
@@ -22,13 +25,23 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            try{
-                    server.broadcast(msgFromClient.toString());
-            }
-            catch(Exception ex) {
+        HangManGame hangManGame = new HangManGame();
+        hangManGame.initGame();
+        String message = "Welcome! The HangMan game has started, You can input 'quit' at any time if you want to leave!" ;
+        msgToClient =  ByteBuffer.wrap(message.getBytes());
+        try {
+            sendMsg(msgToClient);
+            while (true) {
+                try{
+                    server.sendBack(msgFromClient.toString());
+                }
+                catch(Exception ex) {
                    System.out.println(ex);
+                }
             }
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 

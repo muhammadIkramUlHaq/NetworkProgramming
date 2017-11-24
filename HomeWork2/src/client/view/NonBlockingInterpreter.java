@@ -16,6 +16,8 @@ public class NonBlockingInterpreter implements Runnable{
     private final ThreadSafeStdOut outMgr = new ThreadSafeStdOut();
     private boolean receivingCmds = false;
     private ServerConnection server;
+    private final int portNumber = 1111 ;
+    private final String serverAddress = "localhost" ;
 
 
     public void start() {
@@ -24,9 +26,17 @@ public class NonBlockingInterpreter implements Runnable{
         }
         receivingCmds = true;
         server = new ServerConnection();
+        initClientConnection();
         new Thread(this).start();
+
     }
 
+
+    private  void initClientConnection(){
+        server.addCommunicationListener(new ConsoleOutput());
+        server.connect(serverAddress,portNumber);
+        System.out.println("Client Connected !!! ");
+    }
     /**
      * Interprets and performs user commands.
      */
@@ -35,22 +45,13 @@ public class NonBlockingInterpreter implements Runnable{
         while (receivingCmds) {
             try {
                 CmdLine cmdLine = new CmdLine(readNextLine());
-                switch (cmdLine.getCmd()) {
-                    case QUIT:
+                    if (cmdLine.getUserInput().equalsIgnoreCase("quit"))  {
                         receivingCmds = false;
                         server.disconnect();
-                        break;
-                    case CONNECT:
-                        server.addCommunicationListener(new ConsoleOutput());
-                        server.connect(cmdLine.getParameter(0),
-                                Integer.parseInt(cmdLine.getParameter(1)));
-                        break;
-                    case USER:
-                        server.sendUsername(cmdLine.getParameter(0));
-                        break;
-                    default:
-                        server.sendChatEntry(cmdLine.getUserInput());
-                }
+                    }
+                    else {
+                        server.sendEnteredMessage(cmdLine.getUserInput());
+                    }
             } catch (Exception e) {
                 outMgr.println("Operation failed");
             }

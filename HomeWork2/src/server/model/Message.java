@@ -6,13 +6,13 @@ package server.model;
  */
 public class Message {
 
-    private String message = null;
+    private String message;
 
     public void addMessage(String localMessage) {
         this.message = localMessage;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 }

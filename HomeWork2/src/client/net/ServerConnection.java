@@ -20,8 +20,8 @@ public class ServerConnection implements Runnable {
     private static final String FATAL_COMMUNICATION_MSG = "Lost connection.";
     private static final String FATAL_DISCONNECT_MSG = "Could not disconnect, will leave ungracefully.";
 
-    private ByteBuffer msgFromServer = ByteBuffer.allocateDirect(2);
-    private ByteBuffer messageToSend = ByteBuffer.allocateDirect(2);
+    private ByteBuffer msgFromServer = ByteBuffer.allocateDirect(1024);
+    private ByteBuffer messageToSend = ByteBuffer.allocateDirect(1024);
     private final List<CommunicationListener> listeners = new ArrayList();
     private InetSocketAddress serverAddress;
     private SocketChannel socketChannel;
@@ -111,11 +111,7 @@ public class ServerConnection implements Runnable {
         notifyDisconnectionDone();
     }
 
-    public void sendUsername(String username) {
-        sendMsg(username);
-    }
-
-    public void sendChatEntry(String msg) {
+    public void sendEnteredMessage(String msg) {
         sendMsg(msg);
     }
 
@@ -144,6 +140,7 @@ public class ServerConnection implements Runnable {
             throw new IOException(FATAL_COMMUNICATION_MSG);
         }
         String recvdString = extractMessageFromBuffer();
+        System.out.println(recvdString);
         notifyMsgReceived(recvdString);
     }
 

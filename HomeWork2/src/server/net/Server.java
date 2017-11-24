@@ -18,14 +18,14 @@ import java.util.Iterator;
 public class Server {
 
     private final Controller contr = new Controller();
-    private ByteBuffer messageToSend = ByteBuffer.allocateDirect(2);
+    private ByteBuffer messageToSend = ByteBuffer.allocateDirect(1024);
 
     private int portNo = 1111;
     private Selector selector;
     private ServerSocketChannel listeningSocketChannel;
 
 
-    void broadcast(String msg) {
+    void sendBack(String msg) {
         contr.addMessage(msg);
         messageToSend = ByteBuffer.wrap(msg.getBytes());
         selector.wakeup();
@@ -48,8 +48,7 @@ public class Server {
         SocketChannel clientChannel = serverSocketChannel.accept();
         clientChannel.configureBlocking(false);
         ClientHandler handler = new ClientHandler(this, clientChannel);
-        clientChannel.register(selector, SelectionKey.OP_WRITE, new Client(handler, contr.
-                getMessage()));
+        clientChannel.register(selector, SelectionKey.OP_WRITE, new Client(handler, contr.getMessage()));
     }
 
     private void recvFromClient(SelectionKey key) throws IOException {

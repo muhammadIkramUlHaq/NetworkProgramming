@@ -20,44 +20,52 @@
 <div class="container">
 	<div class="row">
 		<div class="span8 offset2">
-			<h1>Currencies</h1>
-			<form:form method="post" action="add" commandName="currency" class="form-horizontal">
+			<h1>Rates</h1>
+			<form:form method="post" action="/rate/add" commandName="rate" class="form-horizontal">
 			<div class="control-group">
-				<form:label cssClass="control-label" path="countryName">Country Name:</form:label>
+				<form:label cssClass="control-label" path="convertFrom">Source Currency Code:</form:label>
 				<div class="controls">
-					<form:input path="countryName"/>
+					<form:input path="convertFrom"/>
 				</div>
 			</div>
 			<div class="control-group">
-				<form:label cssClass="control-label" path="currencyCode">Currency Code:</form:label>
+				<form:label cssClass="control-label" path="convertTo">Destination Currency Code:</form:label>
 				<div class="controls">
-					<form:input path="currencyCode"/>
+					<form:input path="convertTo"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<form:label cssClass="control-label" path="exchangeRate">Exchange Rate:</form:label>
+				<div class="controls">
+					<form:input path="exchangeRate"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<input type="submit" value="Add Currency" class="btn"/>
+					<input type="submit" value="Add Rate" class="btn"/>
 					</form:form>
 				</div>
 			</div>
 
-			<c:if test="${!empty currencies}">
-				<h3>Currencies</h3>
+			<c:if test="${!empty rates}">
+				<h3>Rates</h3>
 				<table class="table table-bordered table-striped">
 					<thead>
 					<tr>
-						<th>Country</th>
-						<th>Currency Code</th>
+						<th>Source Currency</th>
+						<th>Destination Currency</th>
+						<th>Exchange Rate</th>
 						<th>&nbsp;</th>
 					</tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${currencies}" var="currency">
+					<c:forEach items="${rates}" var="rate">
 						<tr>
-							<td> ${currency.countryName}  </td>
-							<td> ${currency.currencyCode} </td>
+							<td> ${rate.exchangeRate}  </td>
+							<td> ${rate.convertTo} </td>
+							<td> ${rate.exchangeRate} </td>
 							<td>
-								<form action="delete/${currency.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
+								<form action="/rate/delete/${rate.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
 							</td>
 						</tr>
 					</c:forEach>

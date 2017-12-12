@@ -1,4 +1,4 @@
-package com.springapp.mvc;
+package com.kth.homework4;
 
 import org.junit.Before;
 import org.junit.Test;

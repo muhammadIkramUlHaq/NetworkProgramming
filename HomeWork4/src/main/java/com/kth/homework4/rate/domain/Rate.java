@@ -1,15 +1,15 @@
-package com.springapp.mvc.domain;
+package com.kth.homework4.rate.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-public class ExchangeRate {
+public class Rate {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long exchangeRateId;
-
+    private Long id;
+    
     @Basic
     private String convertFrom;
 
@@ -19,12 +19,12 @@ public class ExchangeRate {
     @Basic
     private BigDecimal exchangeRate;
     
-    public Long getExchangeRateId() {
-        return exchangeRateId;
+    public Long getId() {
+        return id;
     }
 
-    public void setExchangeRateId(Long exchangeRateId) {
-        this.exchangeRateId = exchangeRateId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getConvertFrom(){

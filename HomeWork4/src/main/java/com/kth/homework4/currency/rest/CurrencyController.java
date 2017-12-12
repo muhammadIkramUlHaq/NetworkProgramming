@@ -1,11 +1,9 @@
-package com.springapp.mvc.controller;
+package com.kth.homework4.currency.rest;
 
-import com.springapp.mvc.domain.Currency;
-import com.springapp.mvc.repository.CurrencyRepository;
-import com.springapp.mvc.services.CurrencyService;
+import com.kth.homework4.currency.service.CurrencyService;
+import com.kth.homework4.currency.domain.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,8 +28,8 @@ public class CurrencyController {
 
     }
 
-    @RequestMapping("/delete/{currencyId}")
-    public String deleteCurrency(@PathVariable("currencyId") Long currencyId) {
+    @RequestMapping("/delete/{Id}")
+    public String deleteCurrency(@PathVariable("Id") Long currencyId) {
        return currencyService.deleteCurrency(currencyId);
     }
 }

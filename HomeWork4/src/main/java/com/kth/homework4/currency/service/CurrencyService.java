@@ -1,11 +1,9 @@
-package com.springapp.mvc.services;
+package com.kth.homework4.currency.service;
 
-import com.springapp.mvc.domain.Currency;
-import com.springapp.mvc.repository.CurrencyRepository;
+import com.kth.homework4.currency.domain.Currency;
+import com.kth.homework4.currency.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-
-import javax.persistence.Entity;
 
 public class CurrencyService {
 

@@ -1,4 +1,4 @@
-package com.springapp.mvc.domain;
+package com.kth.homework4.currency.domain;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ public class Currency {
     private Long id;
 
     @Basic
-    private String countryName;
+    private String country;
 
     @Basic
     private String currencyCode;
@@ -23,11 +23,11 @@ public class Currency {
     }
 
     public String getCountryName(){
-        return countryName;
+        return country;
     }
 
     public void setCountryName (String countryName) {
-        this.countryName = countryName;
+        this.country = countryName;
     }
 
     public String getCurrencyCode(){

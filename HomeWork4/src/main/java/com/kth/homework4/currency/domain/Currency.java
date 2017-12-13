@@ -2,7 +2,7 @@ package com.kth.homework4.currency.domain;
 
 import javax.persistence.*;
 
-@Entity
+@Entity (name = "Currency")
 public class Currency {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,19 +22,19 @@ public class Currency {
         this.id = id;
     }
 
-    public String getCountryName(){
+    public String getCountry(){
         return country;
     }
 
-    public void setCountryName (String countryName) {
-        this.country = countryName;
+    public void setCountry (String country) {
+        this.country = country;
     }
 
     public String getCurrencyCode(){
         return currencyCode;
     }
 
-    public void setCountryCode (String currencyCode) {
+    public void setCurrencyCode (String currencyCode) {
         this.currencyCode = currencyCode;
     }
     

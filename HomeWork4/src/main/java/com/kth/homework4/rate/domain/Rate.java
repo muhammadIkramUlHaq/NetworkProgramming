@@ -3,7 +3,7 @@ package com.kth.homework4.rate.domain;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
+@Entity (name="Rate")
 public class Rate {
     
     @Id
@@ -47,7 +47,7 @@ public class Rate {
         return exchangeRate;
     }
 
-    public void setCountryCode (BigDecimal exchangeRate) {
+    public void setExchangeRate (BigDecimal exchangeRate) {
         this.exchangeRate = exchangeRate;
     }
 

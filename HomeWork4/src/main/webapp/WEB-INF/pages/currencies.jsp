@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Spring MVC Application</title>
+	<title>Currency Exchange</title>
 
 	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +21,11 @@
 	<div class="row">
 		<div class="span8 offset2">
 			<h1>Currencies</h1>
-			<form:form method="post" action="add" commandName="currency" class="form-horizontal">
+			<form:form method="post" action="/api/currency/add" commandName="currency" class="form-horizontal">
 			<div class="control-group">
-				<form:label cssClass="control-label" path="countryName">Country Name:</form:label>
+				<form:label cssClass="control-label" path="country">Country :</form:label>
 				<div class="controls">
-					<form:input path="countryName"/>
+					<form:input path="country"/>
 				</div>
 			</div>
 			<div class="control-group">
@@ -37,7 +37,7 @@
 			<div class="control-group">
 				<div class="controls">
 					<input type="submit" value="Add Currency" class="btn"/>
-					</form:form>
+                    </form:form>
 				</div>
 			</div>
 
@@ -54,10 +54,10 @@
 					<tbody>
 					<c:forEach items="${currencies}" var="currency">
 						<tr>
-							<td> ${currency.countryName}  </td>
+							<td> ${currency.country}  </td>
 							<td> ${currency.currencyCode} </td>
 							<td>
-								<form action="delete/${currency.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
+								<form action="/api/currency/delete/${currency.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
 							</td>
 						</tr>
 					</c:forEach>

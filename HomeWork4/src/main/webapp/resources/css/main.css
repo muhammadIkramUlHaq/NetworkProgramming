@@ -1,11 +1,11 @@
 h2{
-	color: #605E5E;
+	color: #343232;
 	font-family : verdana;
 	font-size: 16px;
 }
 
 h4{
-	color: #605E5E  ;
+	color: #343232  ;
 	font-family : verdana;
 	font-size: 14px;
 }
@@ -55,6 +55,28 @@ video {
     background-color: #ffffff;
     border-collapse: separate;
     border-spacing: 10px;
+}
+
+.tab_th {
+    border-style: solid;
+    border-radius: 4px;
+    margin-left: 10px;
+    background: #648fb1;
+}
+
+
+.tab_td {
+    border-style: solid;
+    border-radius: 4px;
+    margin-left: 10px;
+    background: #a3b1af;
+}
+
+.slt_item {
+    background: aliceblue;
+}
+.result {
+    color: #343232;
 }
 
 .col_div {

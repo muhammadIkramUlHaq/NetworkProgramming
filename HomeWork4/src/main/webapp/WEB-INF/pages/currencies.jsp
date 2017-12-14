@@ -51,23 +51,25 @@
 			</div>
 		<p></p>
 	</div>
+
 	<div class="cur_tab_body">
 			<c:if test="${!empty currencies}">
-				<h2>Currencies</h2>
-				<table class="table table-bordered table-striped" style="border: 1px">
+				<h2> Currencies </h2>
+				<table>
 					<thead>
 					<tr>
-						<th style="bor">Country</th>
-						<th>Currency Code</th>
+						<th class="tab_th"> Country </th>
+						<th class="tab_th"> Currency Code </th>
+
 						<th>&nbsp;</th>
 					</tr>
 					</thead>
 					<tbody>
 					<c:forEach items="${currencies}" var="currency">
 						<tr>
-							<td> ${currency.country}  </td>
-							<td> ${currency.currencyCode} </td>
-							<td>
+							<td class="tab_td"> ${currency.country}  </td>
+							<td class="tab_td"> ${currency.currencyCode} </td>
+							<td class="tab_td">
 								<form action="/api/currency/delete/${currency.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
 							</td>
 						</tr>

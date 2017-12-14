@@ -19,24 +19,24 @@
 <body>
 
 <div class="wrapper">
-	<div class="row">
-		<div class="span8 offset2">
-			<div class="welcome"> Currencies Information </div>
-			<p></p>
-			
-			<form:form method="post" action="/api/currency/add" commandName="currency" class="form-horizontal">
+	<div class="welcome"> Currencies Information </div>
+		<p></p>
+	<div class="cur_body">
+		<form:form method="post" action="/api/currency/add" commandName="currency" class="form-horizontal">
 			<div class="control-group">
 				<form:label cssClass="control-label" path="country">Country :</form:label>
 				<div class="controls">
 					<form:input path="country"/>
 				</div>
 			</div>
+	        <p></p>
 			<div class="control-group">
 				<form:label cssClass="control-label" path="currencyCode">Currency Code:</form:label>
 				<div class="controls">
 					<form:input path="currencyCode"/>
 				</div>
 			</div>
+	        <p></p>
 			<div class="control-group">
 				<div class="controls">
 					<input type="submit" value="Add Currency" class="pat_btn_click"/>
@@ -46,16 +46,18 @@
 			<p></p>
 			<div class="control-group">
 				<div class="controls">
-					<input type="button" class="pat_btn_click" style="width : 10%;" onclick="location.href='/welcome'" value="Back" >
+					<input type="button" class="pat_btn_click" style="width : 30%;" onclick="location.href='/welcome'" value="Back" >
 				</div>
 			</div>
-
+		<p></p>
+	</div>
+	<div class="cur_tab_body">
 			<c:if test="${!empty currencies}">
-				<h3>Currencies</h3>
-				<table class="table table-bordered table-striped">
+				<h2>Currencies</h2>
+				<table class="table table-bordered table-striped" style="border: 1px">
 					<thead>
 					<tr>
-						<th>Country</th>
+						<th style="bor">Country</th>
 						<th>Currency Code</th>
 						<th>&nbsp;</th>
 					</tr>
@@ -73,7 +75,6 @@
 					</tbody>
 				</table>
 			</c:if>
-		</div>
 	</div>
 </div>
 

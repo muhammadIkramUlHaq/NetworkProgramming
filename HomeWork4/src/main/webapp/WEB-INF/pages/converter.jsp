@@ -55,13 +55,27 @@
             <div class="control-group">
                 <label cssClass="control-label">Source Currency:</label>
                 <div class="controls">
-                    <input type="text" name = "convertFrom" id="sourceCurrency"></input>
+                    <select name="convertFrom" id="sourceCurrency">
+                        <option value="NONE" label=" -- SELECT CURRENCY CODE --"/>
+                        <c:forEach items="${currencies}" var="currency">
+                            <option value="${currency}">
+                                    ${currency}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="control-group">
                 <label cssClass="control-label">Destination Currency:</label>
                 <div class="controls">
-                    <input type="text" name = "convertTo" id="destinationCurrency"></input>
+                    <select name="convertTo" id="destinationCurrency">
+                        <option value="NONE" label=" -- SELECT CURRENCY CODE --"/>
+                        <c:forEach items="${currencies}" var="currency">
+                            <option value="${currency}">
+                                    ${currency}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="control-group">
@@ -73,6 +87,11 @@
             <div class="control-group">
                 <div class="controls">
                     <input type="button" onclick="submitTheData()" value="Exchange Currency" class="btn"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="button" value="Back" class="btn" onclick="location.href='/welcome'"/>
                 </div>
             </div>
             <div class="control-group">

@@ -13,14 +13,17 @@
 
 	<link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
 	<link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="/webapp/css/main.css" rel="stylesheet" />
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrapper">
 	<div class="row">
 		<div class="span8 offset2">
-			<h1>Currencies</h1>
+			<div class="welcome"> Currencies Information </div>
+			<p></p>
+			
 			<form:form method="post" action="/api/currency/add" commandName="currency" class="form-horizontal">
 			<div class="control-group">
 				<form:label cssClass="control-label" path="country">Country :</form:label>
@@ -36,8 +39,14 @@
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<input type="submit" value="Add Currency" class="btn"/>
+					<input type="submit" value="Add Currency" class="pat_btn_click"/>
                     </form:form>
+				</div>
+			</div>
+			<p></p>
+			<div class="control-group">
+				<div class="controls">
+					<input type="button" class="pat_btn_click" style="width : 10%;" onclick="location.href='/welcome'" value="Back" >
 				</div>
 			</div>
 

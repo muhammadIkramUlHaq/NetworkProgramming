@@ -37,6 +37,7 @@ video {
 }
 
 .col_div {
+    text-align: center;
 	margin : auto;
 	width : 95%;
 	height : 75%;
@@ -84,24 +85,39 @@ video {
 }
 
 #column1 {
+	padding : 2%;
   float: left;
-  margin-left : 1%;
+  margin-left : 2%;
+	margin-right : 3%;
   border-radius: 8px;
-  width: 48%;
   height : 72%;
   background-color: #ffffff;
   border-collapse: separate;
   border-spacing: 10px;
+	width: 26%;
 }
+
 #column2 {
-  float: right;
-  margin-right : 1%;
+    padding : 2%;
+  margin-right : 3%;
+
   border-radius: 8px;
-  width: 48%;
   height: 72%;
-  margin-left: -200px;
   background-color: #ffffff;
+	float: left;
+	width: 26%;
 }
+
+#column3 {
+    padding : 2%;
+	margin-right : 1%;
+	border-radius: 8px;
+	height: 72%;
+	background-color: #ffffff;
+	float: left;
+	width: 26%;
+}
+
 
 #cleared {
   clear: both;

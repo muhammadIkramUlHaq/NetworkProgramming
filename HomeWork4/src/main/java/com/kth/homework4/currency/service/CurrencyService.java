@@ -9,6 +9,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CurrencyService {
 
     @Autowired
@@ -40,5 +43,14 @@ public class CurrencyService {
             currencyArray.put(currencyJSON);
         }
         return currencyArray.toString();
+    }
+
+    public List<String> getAllCurrencies(){
+        List<String> listOfCurrencies = new ArrayList<String>();
+        for(Currency currency : currencyRepository.findAll()){
+            listOfCurrencies.add(currency.getCurrencyCode());
+        }
+
+        return listOfCurrencies;
     }
 }

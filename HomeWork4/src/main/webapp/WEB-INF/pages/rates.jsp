@@ -25,13 +25,20 @@
 			<div class="control-group">
 				<form:label cssClass="control-label" path="convertFrom">Source Currency Code:</form:label>
 				<div class="controls">
-					<form:input path="convertFrom"/>
+					<form:select path="convertFrom">
+						<form:option value="NONE" label=" -- SELECT CURRENCY CODE --"/>
+						<<form:options items="${currencies}" />
+					</form:select>
 				</div>
 			</div>
 			<div class="control-group">
 				<form:label cssClass="control-label" path="convertTo">Destination Currency Code:</form:label>
 				<div class="controls">
-					<form:input path="convertTo"/>
+                    <form:select path="convertTo">
+                        <form:option value="NONE" label=" -- SELECT CURRENCY CODE --"/>
+                        <<form:options items="${currencies}" />
+                    </form:select>
+				
 				</div>
 			</div>
 			<div class="control-group">
@@ -46,6 +53,13 @@
 					</form:form>
 				</div>
 			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<input type="button" class="pat_btn_click" style="width : 10%;" onclick="location.href='/welcome'" value="Back" >
+				</div>
+			</div>
+
 
 			<c:if test="${!empty rates}">
 				<h3>Rates</h3>

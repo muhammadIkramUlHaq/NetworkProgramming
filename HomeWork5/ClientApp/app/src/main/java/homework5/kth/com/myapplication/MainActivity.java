@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Socket socket;
     private static final int SERVERPORT = 9999;
-    private static final String SERVER_IP = "130.229.175.69";
+    private static final String SERVER_IP = "130.229.176.92";
     Handler updateConversationHandler;
     private EditText responseString;
 
@@ -42,15 +43,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void onClick(View view) {
         try {
             EditText et = (EditText) findViewById(R.id.EditText01);
             String str = et.getText().toString();
-            PrintWriter out = new PrintWriter(new BufferedWriter(
-                    new OutputStreamWriter(socket.getOutputStream())),
-                    true);
-            out.println(str);
+            DataOutputStream output = new DataOutputStream(this.socket.getOutputStream());
+            output.writeUTF(str);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -60,16 +58,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void quitSession(View view) {
+    public void quitSession() {
         try {
-            Button et = (Button) findViewById(R.id.quitButton);
+           // Button et = (Button) findViewById(R.id.quitButton);
             String quitString = "quit";
-            PrintWriter out = new PrintWriter(new BufferedWriter(
-                    new OutputStreamWriter(socket.getOutputStream())),
-                    true);
-            out.println(quitString);
+            DataOutputStream output = new DataOutputStream(this.socket.getOutputStream());
+            output.writeUTF(quitString);
             socket.close();
-            out.close();
+            output.close();
             System.exit(0);
 
         } catch (UnknownHostException e) {
@@ -85,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
 
         private Socket socket;
 
-        private BufferedReader input;
+        private DataInputStream input;
 
         public ListenerThread(Socket socket){
             this.socket = socket;
 
             try {
 
-                this.input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+                this.input = new DataInputStream(this.socket.getInputStream());
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -106,17 +102,61 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
 
-                        String read = input.readLine();
+                         String read = input.readUTF();
 
                         updateConversationHandler.post(new updateUIThread(read));
 
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
         }
 
     }
+
+    class SenderThread implements Runnable {
+        private Socket socket;
+
+        private DataOutputStream output;
+
+        public SenderThread(Socket socket) {
+            this.socket = socket;
+            try {
+
+                this.output = new DataOutputStream(this.socket.getOutputStream());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void run() {
+
+            while (!Thread.currentThread().isInterrupted()) {
+
+                try {
+                    Button et = (Button) findViewById(R.id.quitButton);
+                    Button sendButton = (Button) findViewById(R.id.sendButton);
+                    if(et.isPressed()){
+                        quitSession();
+                    }
+                    if(sendButton.isPressed()){
+                        EditText etext = (EditText) findViewById(R.id.EditText01);
+                        String str = etext.getText().toString();
+                        DataOutputStream output = new DataOutputStream(this.socket.getOutputStream());
+                        output.writeUTF(str);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+
 
     class ClientThread implements Runnable {
 
@@ -127,9 +167,11 @@ public class MainActivity extends AppCompatActivity {
                 InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 
                 socket = new Socket(serverAddr, SERVERPORT);
-
+                // Listener Thread
                 Thread listenerThread = new Thread(new ListenerThread(socket));
                 listenerThread.start();
+                Thread senderThread = new Thread(new SenderThread(socket));
+                senderThread.start();
 
             } catch (UnknownHostException e1) {
                 e1.printStackTrace();
